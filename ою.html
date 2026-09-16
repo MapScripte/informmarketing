@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Startup - Оңай Қайталау</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --primary: #3498db;
+            --accent: #f1c40f;
+            --text: #2c3e50;
+            --success: #27ae60;
+            --error: #e74c3c;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Ұлттық ою-өрнек фоны (ашық түсті) */
+        .pattern-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-pixels.png');
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 8px solid var(--accent);
+        }
+
+        .ornament-top {
+            width: 100px;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .question-area {
+            min-height: 120px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .true-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .false-btn {
+            background-color: #ecf0f1;
+            color: var(--text);
+            border: 1px solid #dcdde1;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            height: 50px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            margin-bottom: 10px;
+        }
+
+        .result-screen {
+            display: none;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            font-size: 2rem;
+            margin: 20px auto;
+            font-weight: bold;
+        }
+         .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+        .back-btn:hover { background-color: #cba974; color: #000; }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+
+<div class="pattern-bg"></div>
+
+<div class="container">
+    <img src="ою.png" class="ornament-top" alt="ornament">
+    
+    <div id="quiz-box">
+        <div class="progress-text" id="counter">Сұрақ: 1 / 5</div>
+        <h1>IT Стартап: Иә немесе Жоқ?</h1>
+        
+        <div class="question-area" id="question-text">
+            Сұрақ жүктелуде...
+        </div>
+
+        <div class="btn-group">
+            <button class="true-btn" onclick="handleAnswer(true)">Иә (Шындық)</button>
+            <button class="false-btn" onclick="handleAnswer(false)">Жоқ (Жалған)</button>
+        </div>
+
+        <div class="feedback" id="feedback-text"></div>
+    </div>
+
+    <div id="result-box" class="result-screen">
+        <h1>Керемет!</h1>
+        <p>Сіздің нәтижеңіз:</p>
+        <div class="score-circle" id="final-score">0</div>
+        <p>Тақырыпты жақсы меңгергенсіз!</p>
+        <button class="true-btn" style="margin-top:20px" onclick="location.reload()">Қайталау</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Стартап дегеніміз — жаңадан ашылған, инновациялық идеясы бар жоба.", a: true, info: "Дұрыс! Бұл жаңа бастама." },
+        { q: "Стартап тек қана киім сататын дүкен болуы тиіс.", a: false, info: "Жалған! Стартап кез келген бағытта (көбіне IT) болуы мүмкін." },
+        { q: "Стартапты бастау үшін міндетті түрде миллиондаған ақша керек.", a: false, info: "Жалған! Көп стартап кішкентай идеядан басталады." },
+        { q: "Стив Джобс пен Марк Цукерберг — әлемге әйгілі стартап негізін қалаушылар.", a: true, info: "Шындық! Олар Apple және Facebook-ті бастаған." },
+        { q: "Стартап сәтті болуы үшін оның тұтынушыға пайдасы тиюі керек.", a: true, info: "Әрине! Пайдалы өнім ғана сұранысқа ие болады." }
+    ];
+
+    let currentIdx = 0;
+    let score = 0;
+
+    function displayQuestion() {
+        if(currentIdx < questions.length) {
+            document.getElementById('question-text').innerText = questions[currentIdx].q;
+            document.getElementById('counter').innerText = `Сұрақ: ${currentIdx + 1} / 5`;
+            document.getElementById('feedback-text').innerText = "";
+        } else {
+            showEnd();
+        }
+    }
+
+    function handleAnswer(ans) {
+        const feedback = document.getElementById('feedback-text');
+        const isCorrect = ans === questions[currentIdx].a;
+
+        if(isCorrect) {
+            score++;
+            feedback.style.color = "var(--success)";
+            feedback.innerText = "✅ " + questions[currentIdx].info;
+        } else {
+            feedback.style.color = "var(--error)";
+            feedback.innerText = "❌ " + questions[currentIdx].info;
+        }
+
+        currentIdx++;
+        setTimeout(displayQuestion, 2000);
+    }
+
+    function showEnd() {
+        document.getElementById('quiz-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = score;
+    }
+
+    displayQuestion();
+</script>
+
+</body>
+</html>

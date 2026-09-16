@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Жаңа сабақ: Жарнама</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-purple: #bc13fe;
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-color: #2d3436;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1), 
+                        0 0 20px rgba(0, 242, 255, 0.2);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #2d3436;
+            text-shadow: 0 0 10px var(--neon-blue);
+            margin-bottom: 30px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 0 15px var(--neon-purple);
+            margin-bottom: 30px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .btn-neon {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--neon-purple);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
+        }
+
+        .btn-neon:hover {
+            background: var(--neon-purple);
+            color: white;
+            box-shadow: 0 0 25px var(--neon-purple);
+        }
+
+        #questions-section {
+            display: none;
+            margin-top: 30px;
+            text-align: left;
+            animation: fadeIn 1s ease;
+        }
+
+        .question-card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid var(--neon-blue);
+            border-radius: 10px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .question-card:hover {
+            transform: translateX(10px);
+            background: #fdfdfd;
+        }
+
+        .question-card p {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none; }
+        .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+
+    <div class="container">
+        <h1>Жаңа тақырып</h1>
+
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/_t9NHtzYmRg" allowfullscreen></iframe>
+        </div>
+
+        <div id="guess-section">
+            <p>Видеоны көріп болсаңыз, жаңа тақырыптың атауын анықтаңыз:</p>
+            <button class="btn-neon" onclick="showQuestions()">Тақырыпты ашу</button>
+        </div>
+
+        <div id="questions-section">
+            <h2 style="color: var(--neon-purple); text-align: center;">Тақырып: Жарнама</h2>
+            
+            <div class="question-card">
+                <p>1. Жарнама дегеніміз не және ол не үшін қажет?</p>
+            </div>
+
+            <div class="question-card">
+                <p>2. Жарнама өнімнің сатылуына қалай әсер етеді?</p>
+            </div>
+
+            <div class="question-card">
+                <p>3. Өнімді сатуда қандай негізгі факторлар маңызды?</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-neon" onclick="location.reload()" style="border-color: var(--neon-blue);">Қайта бастау</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showQuestions() {
+            document.getElementById('guess-section').classList.add('hidden');
+            document.getElementById('questions-section').style.display = 'block';
+            
+            // Әдемі дыбыстық немесе визуалды эффект қосуға болады
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+</body>
+</html>

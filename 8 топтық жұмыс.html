@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Теміржол Болашағы - Топтық Жұмыс</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --kazakh-blue: #00afca;
+            --dark-blue: #003366;
+            --gold: #f9d71c;
+            --dark-gold: #c5a059;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* Ою-өрнек фоны мен стильдері */
+        .ornament-header {
+            background-color: var(--dark-blue);
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40" viewBox="0 0 100 40"><path d="M0 20 Q25 0 50 20 T100 20" fill="none" stroke="%23f9d71c" stroke-width="2"/></svg>');
+            background-repeat: repeat-x;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,51,102,0.85), rgba(0,51,102,0.85)), url('https://images.unsplash.com/photo-1532105956626-9569c03602f6?auto=format&fit=crop&q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+            color: var(--gold);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -40px auto 40px;
+            padding: 20px;
+        }
+
+        /* Ортақ тапсырма бөлімі */
+        .common-task {
+            background: var(--white);
+            border: 3px solid var(--gold);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .common-task h2 {
+            color: var(--dark-blue);
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .common-task p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* Топтар бөлімі */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .group-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 10px solid var(--dark-blue);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .group-card.marketing {
+            border-top-color: var(--dark-gold);
+        }
+
+        .group-header {
+            padding: 20px;
+            background: #f8f9fa;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--dark-blue);
+        }
+
+        .task-content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        /* Жасырын жауаптар стилі */
+        .question-item {
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 15px;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .answer-btn {
+            background: var(--dark-blue);
+            color: var(--gold);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .answer-btn:hover {
+            background: var(--kazakh-blue);
+            color: white;
+        }
+
+        .answer-content {
+            display: none; /* Әдепкі бойынша жабық */
+            margin-top: 15px;
+            padding: 15px;
+            background: #eef9f9;
+            border-radius: 8px;
+            font-style: italic;
+            border-left: 4px solid var(--kazakh-blue);
+        }
+
+        /* Постер қорғау нұсқаулығы */
+        .poster-guide {
+            margin-top: 50px;
+            background: var(--dark-blue);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .poster-guide h2 {
+            color: var(--gold);
+            text-align: center;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .guide-item {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .ornament-footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 2rem;
+            color: var(--dark-gold);
+        }
+
+        /* ТАЙМЕР СТИЛІ */
+        .timer-container {
+            margin-top: 50px;
+            background: var(--white);
+            border: 3px solid var(--dark-blue);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .timer-display {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            color: var(--dark-blue);
+            margin: 10px 0;
+        }
+
+        .timer-controls button {
+            margin: 5px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+        }
+
+        @media (max-width: 850px) {
+            .groups-grid { grid-template-columns: 1fr; }
+        }
+        .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+
+    <div class="ornament-header"></div>
+    
+    <header>
+        <h1>ТЕМІРЖОЛ САЛАСЫН ДАМЫТУ ЖӘНЕ ЖАРНАМА</h1>
+        <p>Инновациялық идеялар мен ұлттық құндылықтар алаңы</p>
+    </header>
+
+    <div class="container">
+        
+        <section class="common-task">
+            <h2>🌍 Ортақ тапсырма: Болашақ бейнесі</h2>
+            <p>Әр топ, <b>"2050 жылғы Қазақстан теміржолы"</b> тақырыбында өз көзқарастарын бейнелеуі керек. Онда пойыздың сыртқы келбеті, қызмет көрсету сапасы және ұлттық колориттің заманауи технологиямен үйлесімі көрсетілуі тиіс.</p>
+        </section>
+
+        <div class="groups-grid">
+            
+            <div class="group-card">
+                <div class="group-header">1-топ: "IT СТАРТАП"</div>
+                <div class="task-content">
+                    <div class="question-item">
+                        <span class="question-text">1. Теміржол саласын дамыту үшін қандай жарнама түрлері ең тиімді деп ойлайсыңдар?</span>
+                        
+                    </div>
+
+                    <div class="question-item">
+                        <span class="question-text">2. Теміржол қызметін халыққа кеңінен таныту үшін қандай идея ұсынар едіңдер?</span>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="group-card marketing">
+                <div class="group-header">2-топ: "МАРКЕТИНГ"</div>
+                <div class="task-content">
+                    <div class="question-item">
+                        <span class="question-text">1. Интернет маркетинг теміржол саласының дамуына қалай әсер ете алады?</span>
+                        
+                    </div>
+
+                    <div class="question-item">
+                        <span class="question-text">2. Жарнама арқылы жолаушылар мен жүк тасымалын қалай көбейтуге болады?</span>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="poster-guide">
+            <h2>🎨 Постер қорғау: Нұсқаулық</h2>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <h3>Мазмұны</h3>
+                    <p>Жоғарыдағы сұрақтардың шешімін постерде креативті түрде көрсетіңіз.</p>
+                </div>
+                <div class="guide-item">
+                    <h3>Ұлттық стиль</h3>
+                    <p>Ою-өрнектер мен қазақи нақыштарды қолдану міндетті.</p>
+                </div>
+                <div class="guide-item">
+                    <h3>Қорғау</h3>
+                    <p>Әр топқа 3 минут уақыт беріледі. Сөз саптау мен дәлелдемеге мән беріледі.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="timer-container">
+            <h2 style="font-family: 'Oswald', sans-serif; color: var(--dark-blue); margin: 0;">⏳ ТАПСЫРМА УАҚЫТЫ</h2>
+            <div class="timer-display" id="display">07:00</div>
+            <div class="timer-controls">
+                <button class="answer-btn" onclick="startTimer()">Бастау</button>
+                <button class="answer-btn" style="background: #e74c3c;" onclick="stopTimer()">Тоқтату</button>
+                <button class="answer-btn" style="background: #95a5a6;" onclick="resetTimer()">Қайта орнату</button>
+            </div>
+        </div>
+
+        <div class="ornament-footer">֎ ۞ ֎</div>
+    </div>
+
+    <script>
+        // Бұрынғы жауапты ашу функциясы
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            const btn = answer.previousElementSibling;
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                btn.innerText = "Жауапты көру";
+            } else {
+                answer.style.display = "block";
+                btn.innerText = "Жасыру";
+            }
+        }
+
+        // ЖАҢА ТАЙМЕР ЛОГИКАСЫ
+        let timer;
+        let timeLeft = 7 * 60; // 7 минутты секундқа айналдыру
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('display').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (timer) return; // Егер қосулы болса, қайта басылмайды
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timer = null;
+                    alert("Уақыт аяқталды!");
+                } else {
+                    timeLeft--;
+                    updateDisplay();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timeLeft = 7 * 60;
+            updateDisplay();
+        }
+    </script>
+</body>
+</html>

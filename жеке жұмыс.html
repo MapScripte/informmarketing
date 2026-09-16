@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вагон Дизайны: Студенттік Жоба</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003366; /* Терең көк */
+            --gold-accent: #D4AF37;   /* Алтын түс */
+            --light-bg: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Ұлттық ою-өрнек фоны бар Header */
+        header {
+            background: linear-gradient(rgba(0, 51, 102, 0.9), rgba(0, 51, 102, 0.9)), 
+                        url('https://www.transparenttextures.com/patterns/gray-floral.png');
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--gold-accent);
+        }
+
+        header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: var(--gold-accent);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -40px auto 40px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Тапсырма шарты бөлімі */
+        .task-section {
+            border-left: 5px solid var(--gold-accent);
+            padding-left: 20px;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: '⬥';
+            margin-right: 10px;
+            color: var(--gold-accent);
+        }
+
+        .wagon-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .wagon-item {
+            background: #eef2f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+            transition: 0.3s;
+        }
+
+        .wagon-item:hover {
+            background: var(--gold-accent);
+            color: white;
+        }
+
+        /* Canva Талаптары */
+        .canva-requirements {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .req-card {
+            text-align: center;
+            width: 250px;
+            padding: 20px;
+        }
+
+        .req-card i {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .btn-canva {
+            display: inline-block;
+            background-color: #00c4cc; /* Canva түсі */
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-canva:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,196,204,0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .ornament {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--gold-accent);
+            font-size: 1.5rem;
+        }
+         .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+        .back-btn:hover { background-color: #cba974; color: #000; }
+
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+
+<header>
+    <h1>Теміржол Көлігінің Дизайны</h1>
+    <p>Болашақ вагондардың визуалды концепциясы</p>
+</header>
+
+<div class="container">
+    <div class="task-section">
+        <h2>Жеке жұмыс тапсырмасы</h2>
+        <p>Әрбір студент төменде көрсетілген вагон түрлерінің бірін таңдап, <strong>Canva</strong> платформасында презентация түрінде келесі тапсырмаларды орындауы тиіс:</p>
+    </div>
+
+    <div class="wagon-list">
+        <div class="wagon-item">Жабық вагон</div>
+        <div class="wagon-item">Жартылай ашық вагон</div>
+        <div class="wagon-item">Платформа</div>
+        <div class="wagon-item">Цистерна</div>
+        <div class="wagon-item">Рефрижератор вагон</div>
+        <div class="wagon-item">Пошта-багаж вагоны</div>
+        <div class="wagon-item">Купе</div>
+        <div class="wagon-item">Плацкарт</div>
+        <div class="wagon-item">Люкс</div>
+        <div class="wagon-item">Әскери вагондар</div>
+        <div class="wagon-item">Арнайы вагондар</div>
+        <div class="wagon-item">Мал таситын вагондар</div>
+        <div class="wagon-item">Кран вагоны</div>
+        <div class="wagon-item">Ресторан вагоны</div>
+        <div class="wagon-item">Мүгедектерге арналған</div>
+    </div>
+
+    <div class="ornament">❧ ━━━━━━━ ❃ ━━━━━━━ ☙</div>
+
+    <h2>Орындалатын жұмыс кезеңдері:</h2>
+    <div class="canva-requirements">
+        <div class="req-card">
+            <strong>1. Сипаттама</strong>
+            <p>Вагонның қызметі мен ерекшелігін ауызша қысқаша мәтінмен сипаттау.</p>
+        </div>
+        <div class="req-card">
+            <strong>2. Логотип</strong>
+            <p>Таңдалған вагон түріне сәйкес бірегей логотип әзірлеу.</p>
+        </div>
+        <div class="req-card">
+            <strong>3. Баннер</strong>
+            <p>Вагонды жарнамалауға арналған креативті баннер дайындау.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <p><em>* Дизайнның көркемдігіне, түстер үйлесімділігіне және ақпараттың түсініктілігіне ерекше назар аударыңыз.</em></p>
+        <a href="https://www.canva.com" target="_blank" class="btn-canva">Canva платформасына өту</a>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Теміржол инженерлері факультеті. Дизайн ұлттық құндылықтар негізінде жасалған.</p>
+</footer>
+
+</body>
+</html>

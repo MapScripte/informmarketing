@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ашық Сабақ | Қасиетова А.А. </title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+        :root {
+            --neon-blue: #007bff;
+            --neon-purple: #8a2be2;
+            --gold: #d4af37;
+            --bg-light: #f0f4f8;
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            color: #2d3436;
+            overflow-x: hidden;
+            /* АШЫҚ ТҮСТІ ФОН */
+            background: linear-gradient(135deg, #eef2f3 0%, #dae2f8 100%);
+            background-attachment: fixed;
+        }
+
+        /* СЫРҒЫМАЛЫ ЖОЛ (HEADER & FOOTER) */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid var(--neon-blue);
+            padding: 12px 0;
+            z-index: 100;
+            position: relative;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+            color: var(--neon-blue);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        footer.marquee-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-bottom: none;
+            border-top: 2px solid var(--neon-blue);
+        }
+
+        /* ЭКРАНДАР ЖҮЙЕСІ */
+        .screen {
+            display: none;
+            min-height: calc(100vh - 120px);
+            padding: 40px;
+            animation: fadeIn 0.4s ease-out;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .active { display: flex; }
+
+        /* БАСТЫ БЕТ - ИНТЕРАКТИВТІ ПАНЕЛЬ (БҰРЫНҒЫ ӨЛШЕМДЕР) */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 40px;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* БАТЫРМАЛАР (БҰРЫНҒЫ СТИЛЬ) */
+        .nav-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            background: white;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: inherit;
+        }
+
+        button:hover {
+            background: var(--neon-blue);
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+            transform: scale(1.03);
+        }
+
+        /* ОРТАДАҒЫ БЛОК (БҰРЫНҒЫ ӨЛШЕМДЕР) */
+        .center-hero {
+            text-align: center;
+            background: var(--glass);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(0, 234, 255, 0.2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        }
+
+        .neon-title {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
+        }
+
+        .center-hero h2 { color: var(--gold); margin-bottom: 10px; font-weight: 300; }
+        .center-hero p { color: #555; font-size: 1.1rem; }
+
+        /* ОҢ ЖАҚ СУРЕТ */
+        .teacher-img-container {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            border: 2px solid var(--neon-purple);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(188, 19, 254, 0.2);
+        }
+
+        .teacher-img-container img { width: 100%; height: auto; display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* МОБИЛЬДІ АДАПТАЦИЯ (тек қажет болғанда) */
+        @media (max-width: 1024px) {
+            .dashboard { grid-template-columns: 1fr; }
+            .nav-panel { order: 2; }
+            .center-hero { order: 1; }
+            .right-visual { order: 3; }
+        }
+    </style>
+</head>
+<body>    
+
+    <header class="marquee-container">
+        <div class="marquee-text">
+            ҚАСИЕТОВА АЙГЕРІМ АЙБЕКҚЫЗЫ | ИНФОРМАТИКА | АРНАЙЫ ПӘНДЕР ОҚЫТУШЫСЫ &nbsp;&nbsp;&nbsp;&nbsp; ● &nbsp;&nbsp;&nbsp;&nbsp; ҚАСИЕТОВА АЙГЕРІМ АЙБЕКҚЫЗЫ | ИНФОРМАТИКА | АРНАЙЫ ПӘНДЕР ОҚЫТУШЫСЫ &nbsp;&nbsp;&nbsp;&nbsp; ● &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </header>
+
+    <div id="app">
+        <section id="main-screen" class="screen active">
+            <div class="dashboard">
+                <div class="nav-panel"> 
+                     <a href="психологиялық ахуал.HTML"><button>1. Психологиялық ахуал ✨</button></a>
+                    <a href="2 топқа бөлу.html"><button>2. Топқа бөлу 🤝</button></a>
+                    <a href="ою.html"><button>3.Өткен тақырыпқа шолу📚</button></a>
+                    <a href="4тақырып ашылуы.html"><button>4. Тақырып ашу 🚀</button></a>
+                    <a href="топтық жұм.html"><button>5. Топтық жұмыс 🏗️</button></a>
+                    <a href="жұптық жұмыс.html"><button>6. Жұптық жұмыс 🧘‍♀️</button></a>
+                    <a href="жеке жұмыс.html"><button>7. Жеке жұмыс 💪</button></a> 
+                     <a href="атжарыс.html"><button>8. Бекіту сұрақтары 📌</button></a>
+                    <a href="рефлексия.html"><button>9. Кері байланыс 🌟</button></a>
+                    <a href="бағалау парағы.html"><button>10. Бағалау 📝</button></a>
+                </div>
+
+                <div class="center-hero">
+                    <h1 class="neon-title">Ашық сабаққа қош келдіңіз!</h1>
+                    <h2><b>Қасиетова Айгерім Айбекқызы</b></h2>
+                    <h5 style="margin-top: 20px; font-weight: 300; line-height: 1.5;"> <strong><i>Сабақтың мақсаты:</i></strong> <i>Маркетингтік жарнама, өнімді өткізу және сату жолдарының теміржол саласындағы маңызын түсіну.
+Берілген деректерді талдау арқылы тиімді маркетингтік шешім ұсынып, алған білімдерін шығармашылық жұмыста қолдану.</i></h5>
+                    <hr style="margin-top: 20px; opacity: 0.1;">
+                </div>
+
+                <div class="right-visual">
+                    <div class="teacher-img-container">
+                        <img src="сурет.png" alt="Teacher Image">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="marquee-container">
+        <div class="marquee-text">
+            Арнайы пәндер оқытушысы: Қасиетова Айгерім Айбекқызы | © 2026 Информатика &nbsp;&nbsp;&nbsp;&nbsp; ● &nbsp;&nbsp;&nbsp;&nbsp; Арнайы пәндер оқытушысы: Қасиетова Айгерім Айбекқызы | © 2026 Информатика &nbsp;&nbsp;&nbsp;&nbsp; ● &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </footer>
+
+    <script>
+        function nav(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
+</body>
+</html>

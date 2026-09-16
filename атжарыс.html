@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="kk"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Маркетинг: Ат жарысы (Бір экранда)</title>    <script src="https://cdn.tailwindcss.com"></script>    <style>        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');                body {            font-family: 'Montserrat', sans-serif;            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);            height: 100vh;            color: white;            overflow: hidden;             display: flex;            flex-direction: column;        }
+        .game-container {            flex: 1;            display: flex;            flex-direction: column;            padding: 0.5rem;            max-width: 1200px;            margin: 0 auto;            width: 100%;            justify-content: flex-start;        }
+        .scoreboard {            display: flex;            justify-content: space-around;            background: rgba(255, 255, 255, 0.2);            backdrop-filter: blur(10px);            padding: 8px;            border-radius: 1rem;            margin-bottom: 0.5rem;            border: 1px solid rgba(255, 255, 255, 0.3);        }
+        .score-val { font-size: 1.5rem; font-weight: bold; display: block; }
+        .track-container {            background: rgba(255, 255, 255, 0.1);            padding: 0.5rem;            border-radius: 1.5rem;            border: 1px solid rgba(255, 255, 255, 0.2);            margin-bottom: 0.5rem;        }
+        .track {            position: relative;            height: 70px;            margin: 2px 0;            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);        }
+        .horse {            position: absolute;            bottom: 5px;            left: 0;            transition: left 0.8s cubic-bezier(0.42, 0, 0.58, 1);            font-size: 3rem;            display: flex;            flex-direction: column;            align-items: center;            z-index: 10;        }
+        .horse-icon { transform: scaleX(-1); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+        .horse-name { font-size: 0.6rem; background: rgba(0,0,0,0.6); padding: 1px 6px; border-radius: 20px; margin-bottom: -5px; }
+        .finish-line { position: absolute; right: 10px; top: 0; bottom: 0; width: 12px; background: repeating-linear-gradient(0deg, #fff, #fff 10px, #000 10px, #000 20px); }
+        
+        .split-ui {            display: grid;            grid-template-columns: 1fr 1fr;            gap: 0.75rem;            flex: 1;            min-height: 0; /* Контейнердің асып кетпеуі үшін маңызды */        }
+        .team-panel {            background: white;            color: #1a202c;            border-radius: 1.25rem;            padding: 0.75rem;            display: flex;            flex-direction: column;            box-shadow: 0 10px 25px rgba(0,0,0,0.2);            overflow: hidden;        }
+        .option-btn {            background: #f3f4f6;            border: 2px solid #e5e7eb;            padding: 0.5rem;            border-radius: 0.75rem;            font-weight: 600;            font-size: 0.8rem;            transition: all 0.2s;            text-align: left;            margin-bottom: 0.4rem;        }
+        .option-btn:hover:not(:disabled) { border-color: #3b82f6; background: #eff6ff; }
+        .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+        .back-btn:hover { background-color: #cba974; color: #000; }
+        .modal { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); }    </style></head><body>
+            <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+    <div class="game-container">        <div class="text-center mb-1">            <h1 class="text-xl font-bold">🐎 Маркетинг Жарысы</h1>        </div>
+        <div class="scoreboard">            <div class="score-item text-center">                <span class="text-blue-300 font-bold uppercase text-[10px]">IT Стартап командасы</span>                <span id="score-1" class="score-val text-blue-400">0</span>            </div>            <div class="score-item text-center">                <span class="text-red-300 font-bold uppercase text-[10px]">Маркетинг командасы</span>                <span id="score-2" class="score-val text-red-400">0</span>            </div>        </div>
+        <div class="track-container">            <div class="track">                <div class="finish-line"></div>                <div id="horse-1" class="horse">                    <span class="horse-name text-blue-400 border border-blue-400">IT Стартап</span>                    <span class="horse-icon">🏇</span>                </div>            </div>
+            <div class="track">                <div class="finish-line"></div>                <div id="horse-2" class="horse">                    <span class="horse-name text-red-400 border border-red-400">Маркетинг</span>                    <span class="horse-icon">🏇</span>                </div>            </div>        </div>
+        <div id="start-btn-container" class="flex justify-center py-4">            <button onclick="startGame()" class="bg-green-600 hover:bg-green-700 text-white px-10 py-3 rounded-2xl text-xl font-bold transition-all transform active:scale-95 shadow-xl">Бастау</button>        </div>
+        <div id="game-split-ui" class="split-ui hidden">            <div class="team-panel border-t-4 border-blue-500">                <div class="text-center mb-2">                    <span class="bg-blue-600 text-white px-3 py-0.5 rounded-full text-[10px] font-bold uppercase">IT Стартап</span>                    <h3 id="q-text-1" class="font-bold text-sm mt-1 leading-tight h-10 flex items-center justify-center text-center"></h3>                </div>                <div id="opts-1" class="flex flex-col overflow-y-auto"></div>            </div>
+            <div class="team-panel border-t-4 border-red-500">                <div class="text-center mb-2">                    <span class="bg-red-600 text-white px-3 py-0.5 rounded-full text-[10px] font-bold uppercase">Маркетинг</span>                    <h3 id="q-text-2" class="font-bold text-sm mt-1 leading-tight h-10 flex items-center justify-center text-center"></h3>                </div>                <div id="opts-2" class="flex flex-col overflow-y-auto"></div>            </div>        </div>    </div>
+    <div id="win-modal" class="fixed inset-0 modal z-50 flex items-center justify-center hidden">        <div class="bg-white text-gray-900 p-8 rounded-3xl text-center max-w-sm mx-4 shadow-2xl">            <div class="text-6xl mb-4">🏆</div>            <h2 id="winner-text" class="text-2xl font-bold mb-6"></h2>            <button onclick="location.reload()" class="bg-blue-600 text-white px-10 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors">Қайта ойнау</button>        </div>    </div>
+    <script>        const questions = {
+            t1: [
+                { q: "Маркетинг дегеніміз не?", options: ["Өнімді жою", "Тұтынушыны зерттеу", "Тек тасымалдау", "Ақша санау"], correct: 1 },
+                { q: "Тауар дегеніміз не?", options: ["Ақша", "Сатылатын өнім/қызмет", "Құжат", "Жұмыс"], correct: 1 },
+                { q: "Баға дегеніміз не?", options: ["Өнім түсі", "Өнім үшін төлем", "Өнім салмағы", "Сапасы"], correct: 1 },
+                { q: "Бренд дегеніміз не?", options: ["Атауы немесе белгісі", "Бағасы", "Саны", "Салмағы"], correct: 0 },
+                { q: "Маркетинг мақсаты?", options: ["Тауарды жасыру", "Тұтынушыны қанағаттандыру", "Бағаны өсіру", "Азайту"], correct: 1 },
+                { q: "Сату дегеніміз не?", options: ["Сатып алу", "Айырбастау", "Өнімді ақшаға беру", "Сақтау"], correct: 2 }
+            ],
+            t2: [
+                { q: "Жарнама не үшін керек?", options: ["Жасыру", "Ақпарат беру", "Бағаны өсіру", "Азайту"], correct: 1 },
+                { q: "Тұтынушы кім?", options: ["Жасайтын адам", "Сатып алатын адам", "Жеткізуші", "Жарнамашы"], correct: 1 },
+                { q: "Жарнама қайда болады?", options: ["Тек мектеп", "Тек көше", "ТВ, интернет, радио", "Дүкен"], correct: 2 },
+                { q: "Интернеттегі жарнама?", options: ["Газет", "Онлайн жарнама", "Радио", "Сыртқы"], correct: 1 },
+                { q: "Жеңілдік не үшін?", options: ["Сауданы арттыру", "Жою үшін", "Бағаны өсіру", "Тоқтату"], correct: 0 },
+                { q: "Жарнаманың мақсаты?", options: ["Жасыру", "Ақпараттандыру", "Көтеру", "Азайту"], correct: 1 }
+            ]
+        };
+        let state = { t1: { idx: 0, score: 0, pos: 0 }, t2: { idx: 0, score: 0, pos: 0 } };
+        const finishLine = 82; const step = finishLine / 6;
+        function startGame() {            document.getElementById('start-btn-container').classList.add('hidden');            document.getElementById('game-split-ui').classList.remove('hidden');            renderQuestion(1); renderQuestion(2);        }
+        function renderQuestion(teamNum) {            const teamKey = 't' + teamNum;            if (state[teamKey].idx >= 6) {                document.getElementById(`q-text-${teamNum}`).innerText = "Аяқталды!";                document.getElementById(`opts-${teamNum}`).innerHTML = "";                checkEnd(); return;            }
+            const qData = questions[teamKey][state[teamKey].idx];            document.getElementById(`q-text-${teamNum}`).innerText = qData.q;            const container = document.getElementById(`opts-${teamNum}`);            container.innerHTML = '';
+            qData.options.forEach((opt, index) => {                const btn = document.createElement('button');                btn.className = "option-btn";                btn.innerText = opt;                btn.onclick = () => handleAnswer(teamNum, index);                container.appendChild(btn);            });        }
+        function handleAnswer(teamNum, choice) {            const teamKey = 't' + teamNum;            if (choice === questions[teamKey][state[teamKey].idx].correct) {                state[teamKey].score++;                state[teamKey].pos += step;                document.getElementById(`score-${teamNum}`).innerText = state[teamKey].score;                document.getElementById(`horse-${teamNum}`).style.left = Math.min(state[teamKey].pos, finishLine) + '%';            }
+            state[teamKey].idx++;            if (state[teamKey].pos >= finishLine || (state.t1.idx >= 6 && state.t2.idx >= 6)) setTimeout(checkEnd, 600);            else renderQuestion(teamNum);        }
+        function checkEnd() {            if (state.t1.idx >= 6 && state.t2.idx >= 6) {                let res = state.t1.score > state.t2.score ? "IT Стартап командасы жеңді!" : state.t2.score > state.t1.score ? "Маркетинг командасы жеңді!" : "Тең түстіңіздер!";                document.getElementById('winner-text').innerText = res + ` (${state.t1.score}:${state.t2.score})`;                document.getElementById('win-modal').classList.remove('hidden');            }        }    </script></body></html>

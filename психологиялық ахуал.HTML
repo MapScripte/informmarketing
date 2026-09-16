@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сиқырлы Хаттар - Neon Glow Edition</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+            --neon-yellow: #fbff00;
+            --neon-green: #00ff66;
+            --neon-purple: #bc13fe;
+        }
+
+        body {
+            /* Терең градиентті фон */
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 3.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            /* Тақырыптың жарқырауы */
+            text-shadow: 
+                0 0 10px #fff,
+                0 0 20px var(--neon-blue),
+                0 0 40px var(--neon-blue),
+                0 0 80px var(--neon-blue);
+            margin-bottom: 5px;
+            letter-spacing: 5px;
+            padding: 5px;
+        }
+
+        .author {
+            color: var(--neon-pink);
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--neon-pink);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 950px;
+            width: 100%;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 900;
+            transition: all 0.4s ease;
+            /* Сыртындағы неонды жарқыл */
+            border: 2px solid transparent;
+        }
+
+        /* Әр конверт түсіне қарай жарқырайды */
+        .envelope:nth-child(5n+1) { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink); }
+        .envelope:nth-child(5n+2) { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); }
+        .envelope:nth-child(5n+3) { border-color: var(--neon-yellow); color: var(--neon-yellow); box-shadow: 0 0 15px var(--neon-yellow); }
+        .envelope:nth-child(5n+4) { border-color: var(--neon-green); color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
+        .envelope:nth-child(5n+5) { border-color: var(--neon-purple); color: var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple); }
+
+        .envelope:hover {
+            transform: scale(1.1) translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 40px inherit; /* Жарқыл күшейеді */
+        }
+
+        .envelope.opened {
+            opacity: 0.3;
+            transform: scale(0.9);
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .envelope::before {
+            content: '✉️';
+            margin-right: 10px;
+        }
+
+        /* Модальді терезе - Неонды Glassmorphism */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 20, 40, 0.9);
+            backdrop-filter: blur(25px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 60px var(--neon-blue);
+            z-index: 100;
+            text-align: center;
+            max-width: 550px;
+            width: 85%;
+            animation: glowIn 0.5s ease-out;
+        }
+
+        @keyframes glowIn {
+            from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        #modal h2 {
+            color: #fff;
+            font-size: 2.2rem;
+            line-height: 1.5;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 99;
+        }
+
+        .close-btn {
+            margin-top: 30px;
+            padding: 15px 50px;
+            background: transparent;
+            color: #fff;
+            border: 2px solid var(--neon-green);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-shadow: 0 0 10px var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        .close-btn:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 40px var(--neon-green);
+        }
+
+        @media (max-width: 650px) {
+            .grid-container { grid-template-columns: repeat(3, 1fr); }
+            h1 { font-size: 2.2rem; }
+        }
+        .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+
+    <h1>✨ СИҚЫРЛЫ ХАТТАР ✨</h1>
+    
+
+    <div class="grid-container" id="envelopeGrid">
+        <!-- JS арқылы 25 хат жасалады -->
+    </div>
+
+    <div id="overlay"></div>
+    <div id="modal">
+        <h2 id="message">Сенің хатың ашылды!</h2>
+        <button class="close-btn" onclick="closeModal()">ҚАБЫЛДАУ</button>
+    </div>
+
+    <script>
+        const messages = [
+            "Сенің қолыңнан бәрі келеді!",
+            "Бүгін сенің ең сәтті күнің!",
+            "Сен - нағыз көшбасшысың!",
+            "Бүгінгі сабақта ең белсендісі сен боласың!",
+            "Сенің білімің - сенің күшің!",
+            "Әрқашан биіктерден көрін!",
+            "Сенің идеяларың өте құнды!",
+            "Бүгін жаңа белесті бағындырасың!",
+            "Сен өте таланттысың!",
+            "Сәттілік әрқашан серігің болсын!",
+            "Сен - болашақ мамансың!",
+            "Бүгін достарыңды таңғалдырасың!",
+            "Күлімсіре, саған күлкі жарасады!",
+            "Өзіңе сен, сенің мүмкіндігің шексіз!",
+            "Бүгін сабақтан тек 5 аласың!",
+            "Сен нағыз интеллектуалсың!",
+            "Мақсатыңа сенімді қадам бас!",
+            "Сен өте еңбекқорсың!",
+            "Жаңа білім - жаңа мүмкіндік!",
+            "Сенің армандарың орындалады!",
+            "Бүгін саған сәттілік күліп тұр!",
+            "Сен - сыныптың мақтанышысың!",
+            "Талабың таудай болсын!",
+            "Сен - жеңімпазсың!",
+            "Бүгін керемет жаңалық естисің!"
+        ];
+
+        // Кристалды, мөлдір позитивті дыбыс
+        const playCrystalSound = () => {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const now = context.currentTime;
+            
+            const tones = [523.25, 783.99, 1046.50, 1567.98]; // C5, G5, C6, G6 (Жарқын аккорд)
+            
+            tones.forEach((freq, i) => {
+                const osc = context.createOscillator();
+                const g = context.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + (i * 0.05));
+                
+                g.gain.setValueAtTime(0, now + (i * 0.05));
+                g.gain.linearRampToValueAtTime(0.08, now + (i * 0.05) + 0.02);
+                g.gain.exponentialRampToValueAtTime(0.001, now + (i * 0.05) + 0.5);
+                
+                osc.connect(g);
+                g.connect(context.destination);
+                
+                osc.start(now + (i * 0.05));
+                osc.stop(now + (i * 0.05) + 0.5);
+            });
+        };
+
+        const grid = document.getElementById('envelopeGrid');
+        const modal = document.getElementById('modal');
+        const overlay = document.getElementById('overlay');
+        const messageText = document.getElementById('message');
+
+        for (let i = 1; i <= 25; i++) {
+            const env = document.createElement('div');
+            env.className = 'envelope';
+            env.innerText = i;
+            env.onclick = () => openEnvelope(i - 1, env);
+            grid.appendChild(env);
+        }
+
+        function openEnvelope(index, element) {
+            if (element.classList.contains('opened')) return;
+
+            playCrystalSound();
+
+            // Неонды фейерверк
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#ff00ff', '#00f2ff', '#fbff00', '#00ff66', '#bc13fe'],
+                scalar: 1.2
+            });
+
+            setTimeout(() => {
+                messageText.innerText = messages[index];
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+                element.classList.add('opened');
+            }, 300);
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

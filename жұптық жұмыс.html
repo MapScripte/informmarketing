@@ -1,0 +1,106 @@
+
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ойлау матрицасы — жұптық жұмыс</title>
+  <meta name="description" content="Маркетинг пен жарнама тақырыбына арналған 4–5 минуттық интерактивті жұптық жұмыс.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d9488'/%3E%3Cpath d='M18 17h28v30H18z' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M32 17v30M18 32h28' stroke='white' stroke-width='4'/%3E%3C/svg%3E">
+  <style>
+    :root{--ink:#123047;--muted:#607789;--teal:#0d9488;--teal2:#14b8a6;--blue:#2563eb;--line:#dcebe9;--paper:#fff;--soft:#f2fbfa;--shadow:0 18px 45px rgba(26,71,83,.11)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font:16px/1.55 Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 8% 8%,#dff8f3 0,transparent 28%),radial-gradient(circle at 92% 15%,#e5efff 0,transparent 28%),#f8fcfc;min-height:100vh}
+    button,textarea{font:inherit}.shell{width:min(1180px,calc(100% - 32px));margin:auto;padding:26px 0 48px}.topbar{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--teal),#34d399);display:grid;place-items:center;color:white;box-shadow:0 10px 25px rgba(13,148,136,.23)}.brand b{font-size:1.08rem}.brand small{display:block;color:var(--muted)}
+    .timebox{display:flex;align-items:center;gap:10px;background:#fff;padding:8px 10px 8px 16px;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(20,80,90,.07)}.clock{font-size:1.45rem;font-weight:800;letter-spacing:.04em;min-width:68px}.btn{border:0;border-radius:12px;padding:10px 15px;font-weight:750;cursor:pointer;transition:.2s transform,.2s box-shadow,.2s background}.btn:hover{transform:translateY(-1px)}.btn.primary{background:var(--ink);color:white;box-shadow:0 8px 18px rgba(18,48,71,.18)}.btn.ghost{background:#edf7f6;color:var(--teal)}
+    .hero{background:rgba(255,255,255,.88);border:1px solid rgba(207,231,228,.9);border-radius:28px;padding:28px 30px;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:20px}.hero:after{content:"";position:absolute;width:240px;height:240px;right:-90px;top:-110px;border:42px solid rgba(20,184,166,.08);border-radius:50%}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--teal);font-weight:800;font-size:.82rem;letter-spacing:.09em;text-transform:uppercase}.dot{width:8px;height:8px;border-radius:50%;background:#2dd4bf}.hero h1{font-size:clamp(2rem,4.5vw,4rem);line-height:1.04;margin:12px 0 10px;letter-spacing:-.045em;max-width:800px}.hero p{max-width:760px;color:var(--muted);font-size:1.05rem;margin:0}.flow{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.chip{padding:8px 12px;border-radius:999px;background:var(--soft);color:#176a65;font-weight:700;font-size:.9rem}.arrow{align-self:center;color:#8aa9a6}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px}.panel{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 10px 30px rgba(24,82,91,.07)}.workspace{padding:24px}.pairnav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}.pair{border:1px solid var(--line);background:#f8fcfc;border-radius:14px;padding:11px 8px;color:var(--muted);font-weight:750;cursor:pointer}.pair strong{display:block;color:var(--ink);font-size:.92rem}.pair.active{background:linear-gradient(135deg,var(--teal),#0f766e);color:#ccfbf1;border-color:transparent;box-shadow:0 9px 20px rgba(13,148,136,.22)}.pair.active strong{color:#fff}
+    .taskhead{display:flex;align-items:flex-start;gap:15px;margin-bottom:14px}.num{flex:0 0 46px;height:46px;border-radius:14px;background:#e8faf7;color:var(--teal);display:grid;place-items:center;font-weight:900;font-size:1.2rem}.taskhead h2{margin:0;font-size:1.55rem}.taskhead p{margin:3px 0 0;color:var(--muted)}.question{background:linear-gradient(135deg,#effbfa,#eff5ff);padding:18px;border-radius:17px;border-left:4px solid var(--teal);font-weight:700;margin:15px 0}.prompts{display:grid;gap:11px}.prompt label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:750;margin:0 2px 6px}.prompt label span{font-size:.8rem;color:#8aa0ae;font-weight:600}.prompt textarea{width:100%;min-height:74px;resize:vertical;border:1px solid #d7e7e6;border-radius:13px;padding:12px 14px;color:var(--ink);background:#fcfefe;outline:0}.prompt textarea:focus{border-color:#5eead4;box-shadow:0 0 0 4px #ccfbf1}.saved{color:var(--teal);font-size:.86rem;margin:12px 2px 0;opacity:0;transition:.2s}.saved.show{opacity:1}
+    aside{display:grid;gap:16px;align-content:start}.side{padding:20px}.side h3{margin:0 0 13px;font-size:1.05rem}.rule{display:flex;gap:11px;margin:12px 0}.ico{flex:0 0 34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#effafa}.rule b{display:block;font-size:.94rem}.rule small{color:var(--muted)}.score{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 0;border-top:1px solid #edf3f2}.score:first-of-type{border-top:0}.score button{width:42px;height:34px;border:1px solid #cce3e0;background:#fff;border-radius:10px;font-weight:900;color:var(--teal);cursor:pointer}.score button.on{background:var(--teal);color:white;border-color:var(--teal)}.total{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:13px 15px;border-radius:14px;background:var(--ink);color:white}.total strong{font-size:1.35rem}.present{background:linear-gradient(145deg,#153b52,#0f766e);color:white;border:0}.present p{color:#cde9e6;margin:4px 0 15px}.present .btn{width:100%;background:white;color:var(--ink)}.present .speak-time{text-align:center;font-size:2.2rem;font-weight:900;margin:10px 0}.steps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;font-size:.86rem;color:#dff7f4}.steps b{color:white}.foot{text-align:center;color:#8195a1;font-size:.86rem;margin-top:18px}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#123047;color:white;padding:11px 17px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 12px 30px rgba(0,0,0,.18)}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}.topbar{align-items:flex-start}.brand small{display:none}.hero{padding:24px}.pairnav{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.shell{width:min(100% - 20px,1180px);padding-top:14px}.topbar{display:grid}.timebox{justify-content:space-between}.hero h1{font-size:2.25rem}.workspace{padding:16px}.hero{padding:21px}.pairnav{gap:7px}.pair{font-size:.78rem}.flow .arrow{display:none}}
+    .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+  </style>
+</head>
+<body>
+  <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><div class="mark" aria-hidden="true">▦</div><div><b>Жұптық жұмыс</b><small>Маркетинг және жарнама</small></div></div>
+      <div class="timebox" aria-label="Жұмыс таймері"><span class="clock" id="clock">05:00</span><button class="btn primary" id="timerBtn">Бастау</button><button class="btn ghost" id="resetBtn" aria-label="Таймерді қалпына келтіру">↻</button></div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="dot"></span> «Ойлау матрицасы» әдісі</div>
+      <h1>Ойла. Дәлелде. Қорытындыла.</h1>
+      <p>Өз жұбыңыздың бағытын таңдаңыз. Сұрақты талқылап, дәптерге немесе төмендегі өрістерге үш сөйлемнен тұратын жауап жазыңыз.</p>
+      <div class="flow"><span class="chip">1 · Негізгі ой</span><span class="arrow">→</span><span class="chip">2 · Дәлел немесе мысал</span><span class="arrow">→</span><span class="chip">3 · Қысқа қорытынды</span></div>
+    </section>
+
+    <div class="layout">
+      <section class="panel workspace" aria-live="polite">
+        <nav class="pairnav" aria-label="Жұпты таңдау" id="pairNav"></nav>
+        <div class="taskhead"><div class="num" id="pairNum">1</div><div><h2 id="taskTitle">Анықта</h2><p id="taskType">Сұрақты түсіндіріп, айырмашылығын көрсетіңіз.</p></div></div>
+        <div class="question" id="question"></div>
+        <div class="prompts" id="prompts"></div>
+        <div class="saved" id="saved">✓ Жауап осы құрылғыда сақталды</div>
+      </section>
+
+      <aside>
+        <section class="panel side">
+          <h3>Жауап формуласы</h3>
+          <div class="rule"><div class="ico">01</div><div><b>Негізгі ой</b><small>Сұраққа нақты жауап беріңіз</small></div></div>
+          <div class="rule"><div class="ico">02</div><div><b>Дәлел</b><small>Мысалмен немесе себеппен негіздеңіз</small></div></div>
+          <div class="rule"><div class="ico">03</div><div><b>Қорытынды</b><small>Ойды бір сөйлеммен түйіндеңіз</small></div></div>
+        </section>
+
+        <section class="panel side">
+          <h3>Дескрипторлар · 2 балл</h3>
+          <div class="score"><span>Негізгі ойды анықтайды</span><button data-score="1" aria-label="Бірінші критерийді бағалау">1</button></div>
+          <div class="score"><span>Дәлелдеп, қорытынды жасайды</span><button data-score="2" aria-label="Екінші критерийді бағалау">1</button></div>
+          <div class="total"><span>Жалпы балл</span><strong><span id="total">0</span>/2</strong></div>
+        </section>
+
+        <section class="panel side present">
+          <h3>30 секундтық таныстырылым</h3>
+          <p>Жауапты ретімен және қысқа ұсыныңыз.</p>
+          <div class="steps"><b>Негізгі ой</b> → <b>Дәлел</b> → <b>Қорытынды</b></div>
+          <div class="speak-time" id="speakTime">00:30</div>
+          <button class="btn" id="speakBtn">Таныстыруды бастау</button>
+        </section>
+      </aside>
+    </div>
+    <div class="foot">Жұмыс уақыты: 4–5 минут · Таныстыру: 30 секунд</div>
+  </main>
+  <div class="toast" id="toast">Уақыт аяқталды!</div>
+
+  <script>
+    const data=[
+      {name:'Анықта',type:'Сұрақты түсіндіріп, айырмашылығын көрсетіңіз.',q:'Маркетинг пен жарнаманың айырмашылығы қандай?',labels:['Маркетинг — ...','Жарнама — ...','Олардың айырмашылығы — ...']},
+      {name:'Салыстыр',type:'Ұқсастық пен айырмашылықты салыстырыңыз.',q:'Дәстүрлі жарнама мен интернет-жарнаманы салыстырыңыз.',labels:['Бір ұқсастығы','Бір айырмашылығы','Теміржол қызметіне тиімді түрі және себебі']},
+      {name:'Таңда',type:'Жағдаятқа сай тиімді шешімді таңдаңыз.',q:'Теміржол компаниясы студенттерге арналған жаңа жеңілдік енгізді.',labels:['Тиімді жарнама арнасы','Таңдаудың себебі','Күтілетін нәтиже']},
+      {name:'Ұсын',type:'Мәселеге нақты маркетингтік шешім ұсыныңыз.',q:'Жолаушылар жаңа теміржол бағыты туралы жеткілікті ақпарат білмейді.',labels:['Мәселенің бір себебі','Бір маркетингтік шешім','Тиімділікті көрсететін нәтиже']}
+    ];
+    let active=0;
+    const nav=document.getElementById('pairNav'),prompts=document.getElementById('prompts'),saved=document.getElementById('saved');
+    data.forEach((x,i)=>{const b=document.createElement('button');b.className='pair';b.innerHTML=`<strong>${i+1}-жұп</strong>${x.name}`;b.onclick=()=>render(i);nav.appendChild(b)});
+    function render(i){active=i;[...nav.children].forEach((b,n)=>b.classList.toggle('active',n===i));document.getElementById('pairNum').textContent=i+1;document.getElementById('taskTitle').textContent=data[i].name;document.getElementById('taskType').textContent=data[i].type;document.getElementById('question').textContent=data[i].q;prompts.innerHTML='';data[i].labels.forEach((label,n)=>{const wrap=document.createElement('div');wrap.className='prompt';wrap.innerHTML=`<label>${label}<span>${n+1}-сөйлем</span></label><textarea maxlength="240" placeholder="Жауабыңызды жазыңыз..."></textarea>`;const ta=wrap.querySelector('textarea');ta.value=localStorage.getItem(`matrix-${i}-${n}`)||'';ta.addEventListener('input',()=>{localStorage.setItem(`matrix-${i}-${n}`,ta.value);saved.classList.add('show');clearTimeout(window.saveHide);window.saveHide=setTimeout(()=>saved.classList.remove('show'),1600)});prompts.appendChild(wrap)});}
+    render(0);
+    let remaining=300,timer=null;const clock=document.getElementById('clock'),timerBtn=document.getElementById('timerBtn');
+    function fmt(s){return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+    timerBtn.onclick=()=>{if(timer){clearInterval(timer);timer=null;timerBtn.textContent='Жалғастыру';return}timerBtn.textContent='Тоқтату';timer=setInterval(()=>{remaining--;clock.textContent=fmt(remaining);if(remaining<=0){clearInterval(timer);timer=null;timerBtn.textContent='Қайта бастау';showToast('Жұмыс уақыты аяқталды!')}},1000)};
+    document.getElementById('resetBtn').onclick=()=>{clearInterval(timer);timer=null;remaining=300;clock.textContent='05:00';timerBtn.textContent='Бастау'};
+    document.querySelectorAll('[data-score]').forEach(b=>b.onclick=()=>{b.classList.toggle('on');b.textContent=b.classList.contains('on')?'✓':'1';document.getElementById('total').textContent=document.querySelectorAll('[data-score].on').length});
+    let speak=30,speakTimer=null;const speakTime=document.getElementById('speakTime'),speakBtn=document.getElementById('speakBtn');
+    speakBtn.onclick=()=>{if(speakTimer){clearInterval(speakTimer);speakTimer=null;speak=30;speakTime.textContent='00:30';speakBtn.textContent='Таныстыруды бастау';return}speakBtn.textContent='Тоқтату';speakTimer=setInterval(()=>{speak--;speakTime.textContent=fmt(speak);if(speak<=0){clearInterval(speakTimer);speakTimer=null;speakBtn.textContent='Қайта бастау';showToast('30 секунд аяқталды!');speak=30}},1000)};
+    function showToast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500)}
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3c28e5a0bac1e3a',t:'MTc4OTU4OTg2MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

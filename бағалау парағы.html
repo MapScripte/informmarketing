@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тұлпар - 12 Студент</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --national-blue: #00afca;
+            --gold: #f6d231;
+            --deep-blue: #003366;
+            --background: #f4f7f6;
+            --danger: #d9534f;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: var(--background);
+            background-image: radial-gradient(circle at center, #ffffff 0%, #e0f2f1 100%);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .main-container {
+            width: 98%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .author {
+            position: fixed;
+            top: 5px;
+            right: 15px;
+            font-size: 0.7rem;
+            color: var(--deep-blue);
+            font-weight: bold;
+            opacity: 0.7;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 0;
+            color: var(--deep-blue);
+            text-transform: uppercase;
+            border-bottom: 3px solid var(--gold);
+            display: inline-block;
+        }
+
+        .quote {
+            margin-top: 8px;
+            font-style: italic;
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border: none;
+        }
+
+        .save-btn { background: var(--national-blue); color: white; }
+        .reset-btn { background: white; color: var(--danger); border: 1px solid var(--danger); }
+
+        .grid {
+            display: grid;
+            /* Бір бетке сыйғызу үшін 4 бағанды қолданамыз */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: white;
+            border-top: 4px solid var(--gold);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .student-name {
+            width: 90%;
+            padding: 6px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: bold;
+            color: var(--deep-blue);
+        }
+
+        .stars {
+            font-size: 18px;
+            margin-bottom: 8px;
+            user-select: none;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #e0e0e0;
+        }
+
+        .star.active { color: var(--gold); }
+
+        .status-badge {
+            display: block;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            background: #f8f9fa;
+        }
+
+        .status-top { background: #fff9c4; color: #fbc02d; }
+        .status-mid { background: #e3f2fd; color: #1976d2; }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            color: #eee;
+            font-size: 0.8rem;
+        }
+        .card:hover .delete-btn { color: #ccc; }
+         .back-btn { 
+            position: fixed; top: 20px; left: 20px; 
+            background-color: rgba(203, 169, 116, 0.2); color: #cba974; 
+            border: 1px solid #cba974; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; 
+            z-index: 100; font-weight: bold; 
+            transition: 0.3s;
+        }
+        .back-btn:hover { background-color: #cba974; color: #000; }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="history.back()">⬅ Артқа қайту</button>
+    
+    
+    <div class="main-container">
+        <div class="header-section">
+            <h1 class="title">"ТҰЛПАР" БАҒАЛАУ ПАРАҒЫ</h1>
+            <p class="quote">"Білімді болуға оқу керек..." – А. Байтұрсынұлы</p>
+            
+            <div class="btn-group">
+                <button class="btn save-btn" onclick="downloadExcel()">📥 ЖҮКТЕУ</button>
+                <button class="btn reset-btn" onclick="resetAll()">🔄 ТАЗАРТУ</button>
+            </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const TOTAL_STUDENTS = 12; // 12 студентке шектелді
+        let studentData = [];
+
+        function loadData() {
+            const saved = localStorage.getItem('nationalAssessmentData12');
+            studentData = saved ? JSON.parse(saved) : Array(TOTAL_STUDENTS).fill(0).map((_, i) => ({ id: i, name: '', score: 0 }));
+            renderGrid();
+        }
+
+        function saveData() {
+            localStorage.setItem('nationalAssessmentData12', JSON.stringify(studentData));
+        }
+
+        function renderGrid() {
+            grid.innerHTML = '';
+            studentData.forEach((s, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                let stars = '';
+                for(let j = 1; j <= 10; j++) {
+                    stars += `<span class="star ${j <= s.score ? 'active' : ''}" onclick="rate(${i}, ${j})">★</span>`;
+                }
+
+                card.innerHTML = `
+                    <span class="delete-btn" onclick="clearStudent(${i})">✕</span>
+                    <input type="text" class="student-name" placeholder="${i+1}-оқушы" value="${s.name}" oninput="updateName(${i}, this.value)">
+                    <div class="stars">${stars}</div>
+                    <div class="status-badge ${s.score > 8 ? 'status-top' : (s.score > 5 ? 'status-mid' : '')}">${getStatus(s.score)}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateName(id, val) {
+            studentData[id].name = val;
+            saveData();
+        }
+
+        function rate(id, score) {
+            studentData[id].score = score;
+            saveData();
+            if (score >= 9) {
+                confetti({ particleCount: 50, spread: 50, origin: { y: 0.8 }, colors: ['#f6d231', '#00afca'] });
+            }
+            renderGrid();
+        }
+
+        function getStatus(score) {
+            if (score === 0) return "ІЗДЕНУШІ";
+            if (score <= 5) return "ТАЛПЫНУШЫ";
+            if (score <= 8) return "ТҰЛПАР";
+            return "СҰҢҚАР";
+        }
+
+        function clearStudent(id) {
+            studentData[id].name = '';
+            studentData[id].score = 0;
+            saveData();
+            renderGrid();
+        }
+
+        function resetAll() {
+            if(confirm("Тізімді толық тазарту?")) {
+                studentData = Array(TOTAL_STUDENTS).fill(0).map((_, i) => ({ id: i, name: '', score: 0 }));
+                saveData();
+                renderGrid();
+            }
+        }
+
+        function downloadExcel() {
+            let csv = "\uFEFFОқушы;Ұпай;Дәреже\n";
+            studentData.forEach((s, i) => {
+                if(s.name || s.score > 0) {
+                    csv += `${s.name || (i+1 + '-оқушы')};${s.score};${getStatus(s.score)}\n`;
+                }
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Bagalau_12_Students.csv";
+            link.click();
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

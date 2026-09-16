@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цифрлы әдіспен топқа бөлу</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@500&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2d3436;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Артқа қайту батырмасы */
+        .back-btn {
+            position: fixed; top: 20px; left: 20px;
+            background: #fff; color: #636e72;
+            border: 1px solid #dfe6e9; padding: 10px 20px;
+            border-radius: 12px; cursor: pointer;
+            font-weight: 600; transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+        .back-btn:hover { background: #636e72; color: #fff; transform: translateY(-2px); }
+
+        .main-card {
+            width: 100%; max-width: 800px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            color: #2d3436;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: #636e72;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        textarea {
+            width: 100%; height: 180px;
+            background: #fff;
+            border: 2px solid #edf2f7;
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 1.1rem;
+            color: #2d3436;
+            outline: none;
+            transition: 0.3s;
+            margin-bottom: 25px;
+            font-family: inherit;
+            resize: none;
+        }
+
+        textarea:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.1);
+        }
+
+        .button-group {
+            display: flex; gap: 15px; justify-content: center;
+        }
+
+        .btn-primary {
+            padding: 16px 45px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-clear {
+            padding: 16px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e74c3c;
+            background: #fff;
+            border: 2px solid #ffeded;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-clear:hover {
+            background: #ffeded;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.4s;
+            border: 1px solid #f1f2f6;
+        }
+
+        .card:hover { transform: translateY(-10px); }
+
+        .it-style { border-top: 8px solid #4facfe; }
+        .marketing-style { border-top: 8px solid #f093fb; }
+
+        .icon-circle {
+            width: 80px; height: 80px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .group-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .student-list {
+            list-style: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .student-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f2f6;
+            color: #4a4a4a;
+            font-size: 1.1rem;
+        }
+
+        .student-list li:last-child { border-bottom: none; }
+
+        .count-badge {
+            margin-top: 25px;
+            padding: 8px 20px;
+            background: #f1f2f6;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #636e72;
+        }
+
+        @media (max-width: 600px) {
+            .button-group { flex-direction: column; }
+            .main-card { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="back-btn" onclick="history.back()">⬅ Артқа</button>
+
+    <div class="main-card">
+        <h1>Топқа бөлу</h1>
+        <p class="subtitle">
+            Қатысушылардың тізімін енгізіп, «IT СТАРТАП» немесе «МАРКЕТИНГ» топтарына автоматты түрде бөліңіз.
+        </p>
+        
+        <textarea id="namesList" placeholder="Әр қатысушының есімін жаңа жолға жазыңыз..."></textarea>
+        
+        <div class="button-group">
+            <button class="btn-primary" onclick="splitToGroups()">Топқа бөлу</button>
+            <button class="btn-clear" onclick="clearList()">Тазалау</button>
+        </div>
+    </div>
+
+    <div id="resultsArea" class="results-grid"></div>
+
+    <script>
+        const textArea = document.getElementById('namesList');
+
+        window.onload = () => {
+            const savedData = localStorage.getItem('it_marketing_split_students');
+            if (savedData) {
+                textArea.value = savedData;
+            } else {
+                textArea.value = "Асхат\nДинара\nАрман\nАружан\nМейрам\nЗарина";
+            }
+        };
+
+        textArea.addEventListener('input', () => {
+            localStorage.setItem('it_marketing_split_students', textArea.value);
+        });
+
+        function clearList() {
+            if(confirm("Тізімді толық өшіргіңіз келе ме?")) {
+                textArea.value = "";
+                localStorage.removeItem('it_marketing_split_students');
+                document.getElementById('resultsArea').innerHTML = "";
+            }
+        }
+
+        function splitToGroups() {
+            const students = textArea.value.split('\n').map(s => s.trim()).filter(s => s !== "");
+            if (students.length < 2) return alert("Кемінде 2 адам қажет!");
+
+            students.sort(() => Math.random() - 0.5);
+            
+            const groups = [[], []];
+            students.forEach((name, i) => groups[i % 2].push(name));
+
+            const config = [
+                { name: "IT СТАРТАП", icon: "💻", class: "it-style", color: "#4facfe" },
+                { name: "МАРКЕТИНГ", icon: "🚀", class: "marketing-style", color: "#f093fb" }
+            ];
+
+            const container = document.getElementById('resultsArea');
+            container.innerHTML = "";
+
+            groups.forEach((group, i) => {
+                const card = document.createElement('div');
+                card.className = `card ${config[i].class}`;
+                card.innerHTML = `
+                    <div class="icon-circle">${config[i].icon}</div>
+                    <h2 class="group-name" style="color:${config[i].color}">${config[i].name}</h2>
+                    <ul class="student-list">${group.map(s => `<li>${s}</li>`).join('')}</ul>
+                    <div class="count-badge">Саны: ${group.length} адам</div>
+                `;
+                container.appendChild(card);
+            });
+
+            window.scrollTo({ top: container.offsetTop - 20, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

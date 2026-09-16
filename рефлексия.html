@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Білім Кітапханасы: Ұлттық Рефлексия</title>
+    <style>
+        /* Негізгі фон мен стиль */
+        body {
+            background-color: #fcf8f0;
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Қағаз текстурасы */
+            font-family: 'Times New Roman', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #4a3728;
+        }
+
+        /* Басты контейнер - Сөре */
+        .library-shelf {
+            background: #2c3e50; /* Көкшіл терең түс */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 90%;
+            max-width: 950px;
+            border: 8px solid #d4af37; /* Алтын жиек */
+            position: relative;
+        }
+
+        /* Жүктелген оюды жоғарыға қою */
+        .ornament-top {
+            width: 200px;
+            margin: -20px auto 10px;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        h1 {
+            color: #d4af37; /* Алтын түс */
+            font-size: 2.5rem;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .subtitle {
+            color: #ecf0f1;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            border-top: 1px solid #d4af37;
+            border-bottom: 1px solid #d4af37;
+            display: inline-block;
+            padding: 5px 20px;
+        }
+
+        .books-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        /* Кітаптар стилі */
+        .book-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .book-wrapper:hover {
+            transform: translateY(-10px);
+        }
+
+        .counter {
+            background: #d4af37;
+            color: #1a252f;
+            padding: 5px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border: 2px solid #fff;
+        }
+
+        .book {
+            width: 180px;
+            height: 270px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px 12px 12px 4px;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 8px 8px 15px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Кітаптардың мұқабасындағы кішкентай ою */
+        .book::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: url('png-klev-club-wvkl-p-uzor-kazakhskii-ornament-png-1.jpg') no-repeat center;
+            background-size: contain;
+            opacity: 0.3;
+        }
+
+        .green-book { background: linear-gradient(135deg, #1e8449, #27ae60); color: white; border-left: 15px solid #145a32; }
+        .yellow-book { background: linear-gradient(135deg, #f39c12, #f1c40f); color: #2c3e50; border-left: 15px solid #b7950b; }
+        .red-book { background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; border-left: 15px solid #7b241c; }
+
+        .book-icon { font-size: 45px; margin-bottom: 20px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); }
+
+        /* Хабарлама терезесі */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 99;
+            backdrop-filter: blur(5px);
+        }
+
+        #message-box {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff8e1;
+            padding: 50px;
+            border-radius: 20px;
+            border: 5px solid #d4af37;
+            text-align: center;
+            box-shadow: 0 0 30px #d4af37;
+        }
+
+        #message-box h2 { font-size: 2.2rem; color: #2c3e50; margin: 0 0 15px; }
+
+        .reset-btn {
+            margin-top: 50px;
+            background: none;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .reset-btn:hover { background: #d4af37; color: #2c3e50; }
+
+        .back-btn {
+            position: fixed; top: 20px; left: 20px;
+            background-color: #d4af37; color: #1a252f;
+            border: none; padding: 12px 24px;
+            font-weight: bold; border-radius: 30px;
+            cursor: pointer; z-index: 150;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="back-btn" onclick="history.back()">⬅ АРТҚА ҚАЙТУ</button>
+
+    <div class="library-shelf">
+        <img src="ою.png" alt="Ою" class="ornament-top">
+        
+        <h1>Білім Кітапханасы</h1>
+        <p class="subtitle">Ұлттық мұра – білім бесігі</p>
+                
+        <div class="books-container">
+            <div class="book-wrapper">
+                <div class="counter" id="count-green">0</div>
+                <div class="book green-book" onclick="vote('green', 'Керемет! Талпынысың таудай болсын! 🇰🇿')">
+                    <div class="book-icon">📜</div>
+                    <div>Бәрін түсіндім, сабақ өте қызықты болды</div>
+                </div>
+            </div>
+
+            <div class="book-wrapper">
+                <div class="counter" id="count-yellow">0</div>
+                <div class="book yellow-book" onclick="vote('yellow', 'Жақсы! Ізденген жетер мұратқа! 📚')">
+                    <div class="book-icon">📖</div>
+                    <div>Түсіндім, бірақ әлі де сұрақтарым бар</div>
+                </div>
+            </div>
+
+            <div class="book-wrapper">
+                <div class="counter" id="count-red">0</div>
+                <div class="book red-book" onclick="vote('red', 'Ештен кеш жақсы, бірге үйренеміз! 🤝')">
+                    <div class="book-icon">✍️</div>
+                    <div>Маған қиын болды, көмек қажет</div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <button class="reset-btn" onclick="resetCounters()">Статистиканы жаңарту</button>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeBox()">
+        <div id="message-box">
+            <img src="ою.png" width="80" alt="ою"><br><br>
+            <h2 id="feedback-text"></h2>
+            <p style="color: #666;">(Жабу үшін экранды басыңыз)</p>
+        </div>
+    </div>
+
+    <script>
+        let stats = { green: 0, yellow: 0, red: 0 };
+
+        function vote(type, message) {
+            stats[type]++;
+            document.getElementById('count-' + type).innerText = stats[type];
+            document.getElementById('feedback-text').innerText = message;
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeBox() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function resetCounters() {
+            if(confirm("Статистиканы нөлге түсіреміз бе?")) {
+                stats = { green: 0, yellow: 0, red: 0 };
+                document.getElementById('count-green').innerText = '0';
+                document.getElementById('count-yellow').innerText = '0';
+                document.getElementById('count-red').innerText = '0';
+            }
+        }
+    </script>
+</body>
+</html>
